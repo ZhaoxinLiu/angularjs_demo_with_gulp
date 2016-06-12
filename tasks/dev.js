@@ -10,7 +10,13 @@ const gulp = require('gulp'),
     workspacepath = processor.cwd(),
     colors = require('colors'),
     fs = require("fs");
-
+//require('gulp-stats')(gulp);
+const onlyReload = {
+    png: 1,
+    jpg: 1,
+    bmp: 1,
+    gif: 1
+};
 const impl = {
     inject() { // js css  文件注入  并排除sprite.css文件
         let fliter = $.filter(['**/*.*', '!**/sprite.css']);
@@ -42,18 +48,22 @@ const impl = {
         done();
     },
     watch(done) { //监控文件变化
-        let watcher = $.watch([].concat(config.app.js, config.app.css, config.app.templates,config.app.dir+config.app.entrance,config.app.images));
+        let watcher = $.watch([].concat(config.app.js, config.app.css, config.app.templates, config.app.dir + config.app.entrance, config.app.images));
         watcher.on('add', (file) => { //添加文件
             let mat = file.match(/(\w+)\.(\w+)$/);
             if (mat) {
-                fs.readFile(file, function(err, data) {
+                fs.stat(file, (err, data) => {
                     if (err) {
                         return console.error(err);
                     }
-                    if (data.toString() === ""&&mat[2].toLocaleLowerCase() !== 'css') {
-                        console.log("A blank file[added]".magenta);
+                    if (data.size === 0 && mat[2].toLocaleLowerCase() !== 'css') {
+                        console.log("Only a blank file[added]".magenta);
                     } else {
-                        gulp.series(impl.inject, impl.reload)();
+                        if (onlyReload[mat[2].toLocaleLowerCase()]) {
+                            gulp.series(impl.reload)();
+                        } else {
+                            gulp.series(impl.inject, impl.reload)();
+                        }
                     }
                 });
             } else {
@@ -64,7 +74,11 @@ const impl = {
             let mat = file.match(/(\w+)\.(\w+)$/);
             if (mat) {
                 console.log((file.replace(workspacepath, 'The File:') + ' [is deleted]').magenta);
-                gulp.series(impl.inject, impl.reload)();
+                if (onlyReload[mat[2].toLocaleLowerCase()]) {
+                    gulp.series(impl.reload)();
+                } else {
+                    gulp.series(impl.inject, impl.reload)();
+                }
             } else {
                 return;
             }
@@ -73,7 +87,7 @@ const impl = {
             let mat = file.match(/(\w+)\.(\w+)$/),
                 stream = false;
             if (mat) {
-                if (mat[2].toLocaleLowerCase() === 'css') {   //判断是不是css文件
+                if (mat[2].toLocaleLowerCase() === 'css') { //判断是不是css文件
                     stream = true;
                 }
                 console.log((file.replace(workspacepath, 'The File:') + ' [is changed]').magenta);

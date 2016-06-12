@@ -4,8 +4,10 @@ const gulp = require('gulp'),
     colors = require('colors'),
     processor = require('process'),
     packageInfo = require('./package.json'),
+    statistic = require('./tasks/statistic'),
     workspacepath = processor.cwd();
-const dateformat=(d,fmt)=>{
+statistic(gulp);
+const dateformat = (d, fmt) => {
     var o = {
         "M+": d.getMonth() + 1, //月份   
         "d+": d.getDate(), //日   
@@ -15,11 +17,11 @@ const dateformat=(d,fmt)=>{
         "q+": Math.floor((d.getMonth() + 3) / 3), //季度   
         "S": d.getMilliseconds() //毫秒   
     };
-    if (/(y+)/.test(fmt)){
+    if (/(y+)/.test(fmt)) {
         fmt = fmt.replace(RegExp.$1, (d.getFullYear() + "").substr(4 - RegExp.$1.length));
     }
-    for (var k in o){
-        if (new RegExp("(" + k + ")").test(fmt)){
+    for (var k in o) {
+        if (new RegExp("(" + k + ")").test(fmt)) {
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         }
     }
@@ -37,5 +39,3 @@ console.log(`
 
 
 gulp.task('default', gulp.series(dev.inject, dev.watch, dev.startDevSer));
-
-
