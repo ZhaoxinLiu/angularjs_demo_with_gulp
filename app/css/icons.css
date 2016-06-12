@@ -1,0 +1,50 @@
+.icon-center:before,
+.icon-center:after,
+.icon-mid:before,
+.icon-mid:after,
+.icon-center-mid:before,
+.icon-center-mid:after,
+.icon-mid-center:before,
+.icon-mid-center:after
+{
+    position: absolute;
+
+    content: '';
+}
+.icon-center:before,
+.icon-center:after
+{
+    right: 0;
+    left: 0;
+
+    margin-right: auto;
+    margin-left: auto;
+}
+.icon-mid:before,
+.icon-mid:after
+{
+    top: 0;
+    bottom: 0;
+
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.icon-mid-center:before,
+.icon-center-mid:before,
+.icon-mid-center:after,
+.icon-center-mid:after,
+{
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    margin: auto;
+}
+.icon-angular-logo:after
+{
+    width: 47px;
+    height: 50px;
+
+    background: url('../images/icons/angular-logo.png') no-repeat;
+}

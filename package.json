@@ -1,0 +1,35 @@
+{
+  "name": "angularjs_demo_with_gulp",
+  "version": "1.0.0",
+  "description": "angularjs demo(use gulp)",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZhaoxinLiu/angularjs_demo_with_gulp.git"
+  },
+  "keywords": [
+    "angularjs",
+    "demo",
+    "gulp"
+  ],
+  "author": "Zhaoxin Liu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ZhaoxinLiu/angularjs_demo_with_gulp/issues"
+  },
+  "homepage": "https://github.com/ZhaoxinLiu/angularjs_demo_with_gulp#readme",
+  "devDependencies": {
+    "browser-sync": "^2.12.12",
+    "colors": "^1.1.2",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-filter": "^4.0.0",
+    "gulp-inject": "^4.1.0",
+    "gulp-load-plugins": "^1.2.4",
+    "gulp-watch": "^4.3.6",
+    "proxy-middleware": "^0.15.0",
+    "url": "^0.11.0"
+  }
+}
