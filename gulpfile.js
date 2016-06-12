@@ -4,9 +4,7 @@ const gulp = require('gulp'),
     colors = require('colors'),
     processor = require('process'),
     packageInfo = require('./package.json'),
-    statistic = require('./tasks/statistic'),
     workspacepath = processor.cwd();
-statistic(gulp);
 const dateformat = (d, fmt) => {
     var o = {
         "M+": d.getMonth() + 1, //月份   
