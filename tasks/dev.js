@@ -10,7 +10,6 @@ const gulp = require('gulp'),
     workspacepath = processor.cwd(),
     colors = require('colors'),
     fs = require("fs");
-//require('gulp-stats')(gulp);
 const onlyReload = {
     png: 1,
     jpg: 1,
