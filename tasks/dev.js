@@ -51,28 +51,7 @@ const impl = {
         watcher.on('add', (file) => { //添加文件
             let mat = file.match(/(\w+)\.(\w+)$/);
             if (mat) {
-                fs.stat(file, (err, data) => {
-                    if (err) {
-                        return console.error(err);
-                    }
-                    if (data.size === 0 && mat[2].toLocaleLowerCase() !== 'css') {
-                        console.log("Only a blank file[added]".magenta);
-                    } else {
-                        if (onlyReload[mat[2].toLocaleLowerCase()]) {
-                            gulp.series(impl.reload)();
-                        } else {
-                            gulp.series(impl.inject, impl.reload)();
-                        }
-                    }
-                });
-            } else {
-                return;
-            }
-        });
-        watcher.on('unlink', (file) => {
-            let mat = file.match(/(\w+)\.(\w+)$/);
-            if (mat) {
-                console.log((file.replace(workspacepath, 'The File:') + ' [is deleted]').magenta);
+                console.log((file.replace(workspacepath, 'The File:') + ' [is added]').magenta);
                 if (onlyReload[mat[2].toLocaleLowerCase()]) {
                     gulp.series(impl.reload)();
                 } else {
@@ -80,6 +59,16 @@ const impl = {
                 }
             } else {
                 return;
+            }
+
+        });
+        watcher.on('unlink', (file) => {
+            let mat = file.match(/(\w+)\.(\w+)$/);
+            console.log((file.replace(workspacepath, 'The File:') + ' [is deleted]').magenta);
+            if (onlyReload[mat[2].toLocaleLowerCase()]) {
+                gulp.series(impl.reload)();
+            } else {
+                gulp.series(impl.inject, impl.reload)();
             }
         });
         watcher.on('change', (file) => {

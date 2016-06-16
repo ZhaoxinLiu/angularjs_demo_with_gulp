@@ -1,0 +1,28 @@
+.icon-word:after
+{
+    background: url(../../images/icons/icon-word.png);
+}
+.icon-excel:after
+{
+    background: url(../../images/icons/icon-excel.png);
+}
+.icon-powerpoint:after
+{
+    background: url(../../images/icons/icon-powerpoint.png);
+}
+.icon-access:after
+{
+    background: url(../../images/icons/icon-access.png);
+}
+.icon-onenote:after
+{
+    background: url(../../images/icons/icon-onenote.png);
+}
+.icon-outlook:after
+{
+    background: url(../../images/icons/icon-outlook.png);
+}
+.icon-publisher:after
+{
+    background: url(../../images/icons/icon-publisher.png);
+}

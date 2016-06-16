@@ -1,3 +1,9 @@
+.icon:before,
+.icon:after
+{
+    content: '';
+    display: block;
+}
 .icon-center:before,
 .icon-center:after,
 .icon-mid:before,
