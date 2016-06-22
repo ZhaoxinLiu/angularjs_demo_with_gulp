@@ -1,6 +1,7 @@
 'use strict';
 const gulp = require('gulp'),
-    dev = require('./tasks/dev.js'),
+    dev = require('./tasks/dev'),
+    build=require('./tasks/build'),
     colors = require('colors'),
     processor = require('process'),
     packageInfo = require('./package.json'),
@@ -36,4 +37,5 @@ console.log(`
 
 
 
-gulp.task('default', gulp.series(dev.inject, dev.watch, dev.startDevSer));
+gulp.task('default', gulp.series(dev.addPrefix,dev.inject, dev.watch, dev.startDevSer));
+gulp.task("build",gulp.series(build.del,build.sprites2x));

@@ -8,8 +8,10 @@ module.exports = () => {
         },
         app: {
             dir: 'app/', //  app 目录
-            js: ['app/js/lib/**/*','app/js/app/*', 'app/js/app/*/**/*'], // 你的js文件
-            css: ['app/css/**/*'],
+            js: ['app/js/lib/**/*.js','app/js/app/**/*.js'], // 你的js文件
+            css: ['./app/css/**/*.css'],
+            cssPath:'app/css',
+           // iconCSS: ['app/css/icon/**/*.css'],
             iconCSS: ['app/css/icon/**/*.css'],
             fonts: ['app/fonts/**/*.*'],
             images: ['app/images/**/*.*'],

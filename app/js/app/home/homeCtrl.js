@@ -22,5 +22,5 @@ angular.module('app').controller('homeCtrl', function($scope){
         name:'Microsoft Office Publisher 2016',
         icon:'icon-publisher'
     }];
-    alert()
+
 });

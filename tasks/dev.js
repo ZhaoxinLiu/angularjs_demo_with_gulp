@@ -17,6 +17,15 @@ const onlyReload = {
     gif: 1
 };
 const impl = {
+    addPrefix() {
+        return gulp.src(config.app.css)
+            .pipe($.autoprefixer({
+                browsers: ['last 2 versions', '>2%'],
+                cascade: true,
+                remove: true
+            }))
+            .pipe(gulp.dest(config.app.cssPath));
+    },
     inject() { // js css  文件注入  并排除sprite.css文件
         let fliter = $.filter(['**/*.*', '!**/sprite.css']);
         return gulp.src(config.app.dir + '/index.html')
@@ -80,9 +89,16 @@ const impl = {
                 }
                 console.log((file.replace(workspacepath, 'The File:') + ' [is changed]').magenta);
                 if (stream) {
-                    gulp.src(file).pipe(browserReload({
-                        stream: true
-                    })); //css注入
+                    gulp.src(file)
+                        .pipe($.autoprefixer({
+                            browsers: ['last 2 versions', '>2%'],
+                            cascade: true,
+                            remove: true
+                        }))
+                        .pipe(gulp.dest(file.replace(/(\w+)\.(\w+)$/,'')))
+                        .pipe(browserReload({
+                            stream: true
+                        })); //css注入
                 } else {
                     gulp.series(impl.reload)(); //其他的刷新
                 }
