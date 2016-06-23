@@ -26,6 +26,7 @@ const dateformat = (d, fmt) => {
     }
     return fmt;
 };
+
 console.log(`
 ==============================
 开始时间:%s
@@ -38,4 +39,4 @@ console.log(`
 
 
 gulp.task('default', gulp.series(dev.addPrefix,dev.inject, dev.watch, dev.startDevSer));
-gulp.task("build",gulp.series(build.del,build.sprites2x));
+gulp.task("build",gulp.series(build.fixBUG,build.del,build.miniImg,build.sprites2x));
