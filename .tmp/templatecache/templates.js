@@ -1,0 +1,4 @@
+angular.module('app').run(['$templateCache', function($templateCache) {$templateCache.put('header.html','<header><div class="icon-mid icon-angular-logo"></div>\u8FD9\u53EA\u662F\u4E00\u4E2ADemo</header>');
+$templateCache.put('home/home.html','<div ng-controller=homeCtrl><h1>Home Page</h1><h2>Microsoft \u8FC7\u6765\u7838\u573A\u3002\u3002\u3002</h2><ul class=icon-demo><li ng-repeat="itm in data.office"><div class="{{\'icon \'+itm.icon}}"></div>{{itm.name}}</li></ul></div>');
+$templateCache.put('403page.html','<div><h1>This is 403 Forbidden Page</h1></div>');
+$templateCache.put('404page.html','<div><h1>This is 404 Error Page</h1></div>');}]);

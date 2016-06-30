@@ -7,16 +7,24 @@ module.exports = () => {
             path: '/api'
         },
         app: {
-            dir: 'app/', //  app 目录
-            js: ['app/js/lib/**/*.js','app/js/app/**/*.js'], // 你的js文件
-            css: ['./app/css/**/*.css'],
-            cssPath:'app/css',
-           // iconCSS: ['app/css/icon/**/*.css'],
-            iconCSS: ['app/css/icon/**/*.css'],
-            fonts: ['app/fonts/**/*.*'],
-            images: ['app/images/**/*.*'],
-            entrance: 'index.html', //app 入口文件
-            templates: ['app/template/**/*.html', 'app/views/**/*.html'] //模板跟views
+            dir: 'app/',//  app 目录
+            mainFile: ['app/css/main.css', 'app/js/app/app.js'], //首先注入的文件
+            js: ['app/js/lib/**/*.js', 'app/js/app/**/*.js'], // 你的js文件
+            css: ['app/css/**/*.css'], //你的CSS文件
+            cssPath: 'app/css', //css文件路径
+            fonts: ['app/fonts/**/*.*'], //字体们
+            images: ['app/images/**/*.*'], //图片们
+            templates: ['app/template/**/*.html', 'app/views/**/*.html'], //模板跟views
+            entrance: 'index.html'//app 入口文件
+
+        },
+        build: {
+            dir: 'dist',
+            appModuleName:'app',
+            ngTemplateBaseDir:'app',
+            iconCSS: ['app/css/icon/**/*.css'], //包含sprite图的CSS们
+            spriteCSS: 'app/css/sprite/sprite.css', //sprite
+            spriteIMG:'app/images/icons/'
         },
         devSer: { //测试服务器设置
             port: 3000,

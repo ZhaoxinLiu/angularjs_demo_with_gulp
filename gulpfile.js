@@ -38,5 +38,6 @@ console.log(`
 
 
 
-gulp.task('default', gulp.series(dev.addPrefix,dev.inject, dev.watch, dev.startDevSer));
-gulp.task("build",gulp.series(build.fixBUG,build.del,build.miniImg,build.sprites2x));
+gulp.task('default', gulp.series(dev.inject, dev.watch, dev.startDevSer));
+//gulp.task("build",gulp.series(build.del,build.sprites,build.inject));
+gulp.task("build",gulp.series(build.del,build.ngTemplate));

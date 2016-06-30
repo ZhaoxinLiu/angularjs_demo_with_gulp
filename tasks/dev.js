@@ -17,15 +17,15 @@ const onlyReload = {
     gif: 1
 };
 const impl = {
-    addPrefix() {
-        return gulp.src(config.app.css)
-            .pipe($.autoprefixer({
-                browsers: ['last 2 versions', '>2%'],
-                cascade: true,
-                remove: true
-            }))
-            .pipe(gulp.dest(config.app.cssPath));
-    },
+    // addPrefix() {
+    //     return gulp.src(config.app.css)
+    //         .pipe($.autoprefixer({
+    //             browsers: ['last 2 versions', '>2%'],
+    //             cascade: true,
+    //             remove: true
+    //         }))
+    //         .pipe(gulp.dest(config.app.cssPath));
+    // },
     inject() { // js css  文件注入  并排除sprite.css文件
         let fliter = $.filter(['**/*.*', '!**/sprite.css']);
         return gulp.src(config.app.dir + '/index.html')

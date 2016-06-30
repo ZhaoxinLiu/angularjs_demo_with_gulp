@@ -27,6 +27,7 @@
     "colors": "^1.1.2",
     "del": "^2.2.1",
     "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-angular-templatecache": "^2.0.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-concat": "^2.6.0",
     "gulp-css-spritesmith": "0.0.5",
@@ -34,9 +35,11 @@
     "gulp-imagemin": "^3.0.1",
     "gulp-inject": "^4.1.0",
     "gulp-load-plugins": "^1.2.4",
+    "gulp-minify-html": "^1.0.6",
     "gulp-watch": "^4.3.6",
     "iconv-lite": "^0.4.13",
     "proxy-middleware": "^0.15.0",
+    "stream-series": "^0.1.1",
     "url": "^0.11.0"
   }
 }

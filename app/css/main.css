@@ -33,10 +33,6 @@ header
 
     color: #fff;
     background: #000;
-    -webkit-transition: -webkit-transform 1s;
-    transition: -webkit-transform 1s;
-    transition: transform 1s;
-    transition: transform 1s, -webkit-transform 1s;
 }
 .icon-angular-logo
 {
