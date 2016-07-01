@@ -1,4 +1,6 @@
 'use strict';
+let processor = require('process'),
+workspacepath = processor.cwd();
 
 module.exports = () => {
     const config = {
@@ -20,11 +22,12 @@ module.exports = () => {
         },
         build: {
             dir: 'dist',
+            spriteIMG:'app/images/icons/',
             appModuleName:'app',
-            ngTemplateBaseDir:'app',
+            ngTemplateBaseDir:workspacepath+'/app/',
             iconCSS: ['app/css/icon/**/*.css'], //包含sprite图的CSS们
             spriteCSS: 'app/css/sprite/sprite.css', //sprite
-            spriteIMG:'app/images/icons/'
+            outPath:'dist'
         },
         devSer: { //测试服务器设置
             port: 3000,

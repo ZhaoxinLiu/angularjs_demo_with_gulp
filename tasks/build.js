@@ -2,6 +2,9 @@
 const gulp = require('gulp'),
     $ = require("gulp-load-plugins")(),
     config = require('../gulp_config')(),
+    url = require('url'),
+    browserSync = require('browser-sync'),
+    proxy = require('proxy-middleware'),
     del = require('del'),
     processor = require('process'),
     iconv = require('iconv-lite'),
@@ -9,7 +12,7 @@ const gulp = require('gulp'),
     workspacepath = processor.cwd();
 const impl = {
     del(done) {
-        del(['dist'], done());
+        del(['dist', '.tmp'], done());
     },
     fixBUG(done) {
         const imageSetSpriteCreatorJSPath = workspacepath + '/node_modules/css-spritesmith/lib/imageSetSpriteCreator.js';
@@ -38,22 +41,57 @@ const impl = {
         return gulp.src(config.app.templates)
             .pipe($.minifyHtml())
             .pipe($.angularTemplatecache({
-                module: config.build.appModuleName
+                module: config.build.appModuleName,
+                base: config.build.ngTemplateBaseDir
             }))
             .pipe(gulp.dest(destSrc));
     },
-    inject() {
+    useMini(done) {
         let fliter = $.filter(['**/*.*', '!**/icon/*.css', '!**/app.js', '!**/main.css']),
-            FileStream = gulp.src([].concat(config.build.spriteCSS, config.app.js, config.app.css), {
+            FileStream = gulp.src([].concat(config.build.spriteCSS, config.app.js, config.app.css, ['tmp/templatecache/templates.js']), {
                 read: false
             }).pipe(fliter),
             MainFileStream = gulp.src(config.app.mainFile);
-        return gulp.src(config.app.dir + '/index.html')
+        return gulp.src('app/index.html')
             .pipe($.inject(series(MainFileStream, FileStream), {
                 relative: true
+            })).pipe($.usemin({
+                assetsDir: 'app',
+                css1: [$.autoprefixer({
+                    browsers: ['last 2 versions'],
+                    cascade: false
+                }), $.minifyCss(), $.rev()],
+                css2: [$.autoprefixer({
+                    browsers: ['last 2 versions'],
+                    cascade: false
+                }), $.minifyCss(), $.rev()],
+                js1: [$.jslint(), $.ngAnnotate(), $.uglify(), $.rev()],
+                js2: [$.jslint(), $.ngAnnotate(), $.uglify(), $.rev()]
             }))
-            .pipe(gulp.dest(config.app.dir));
+            .pipe(gulp.dest(config.build.outPath))
+            .pipe($.rev.manifest())
+            .pipe(gulp.dest('.tmp/manifest'));
     },
+    // revReplace() {
+    //     let manifest = gulp.src(config.tmpForder + "/manifest/rev-manifest.json");
+    //     return gulp.src(config.buildOutPath + config.revReplaceEntrance)
+    //         .pipe($.revReplace({
+    //             manifest: manifest
+    //         }))
+    //         .pipe(gulp.dest(config.buildOutPath))
+    // },
+    // inject() {
+    //     let fliter = $.filter(['**/*.*', '!**/icon/*.css', '!**/app.js', '!**/main.css']),
+    //         FileStream = gulp.src([].concat(config.build.spriteCSS, config.app.js, config.app.css, ['tmp/templatecache/templates.js']), {
+    //             read: false
+    //         }).pipe(fliter),
+    //         MainFileStream = gulp.src(config.app.mainFile);
+    //     return gulp.src(config.app.dir + '/index.html')
+    //         .pipe($.inject(series(MainFileStream, FileStream), {
+    //             relative: true
+    //         }))
+    //         .pipe(gulp.dest(config.app.dir));
+    // },
     miniImg() {
         //  console.log(config.images)
         return gulp.src(config.app.images)
@@ -76,8 +114,21 @@ const impl = {
                 cssstamp: false
             })).pipe(gulp.dest('./'));
     },
-    useMini() {
-
+    startBuildSer(done) {
+        let proxyOptions = url.parse(config.APIproxy.url);
+        proxyOptions.route = '/api';
+        browserSync.init({
+            port: config.devSer.port,
+            host: config.devSer.hostName,
+            open: 'external',
+            index: config.app.entrance,
+            logLevel: "silent",
+            server: {
+                baseDir: config.build.dir + '/',
+                middleware: [proxy(proxyOptions)]
+            }
+        });
+        done();
     }
 };
 module.exports = impl;

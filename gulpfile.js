@@ -36,8 +36,6 @@ console.log(`
 ==============================
 `.blue, dateformat(new Date(), 'yyyy-MM-dd hh:mm:ss'), packageInfo.name, packageInfo.author, workspacepath);
 
-
-
 gulp.task('default', gulp.series(dev.inject, dev.watch, dev.startDevSer));
 //gulp.task("build",gulp.series(build.del,build.sprites,build.inject));
-gulp.task("build",gulp.series(build.del,build.ngTemplate));
+gulp.task("build",gulp.series(build.del,build.sprites,build.ngTemplate,build.useMini,build.startBuildSer));
