@@ -3,9 +3,7 @@ const gulp = require('gulp'),
     dev = require('./tasks/dev'),
     build=require('./tasks/build'),
     colors = require('colors'),
-    processor = require('process'),
-    packageInfo = require('./package.json'),
-    workspacepath = processor.cwd();
+    packageInfo = require('./package.json');
 const dateformat = (d, fmt) => {
     var o = {
         "M+": d.getMonth() + 1, //月份   
@@ -34,8 +32,7 @@ console.log(`
 作者:%s
 工作目录:%s
 ==============================
-`.blue, dateformat(new Date(), 'yyyy-MM-dd hh:mm:ss'), packageInfo.name, packageInfo.author, workspacepath);
+`.blue, dateformat(new Date(), 'yyyy-MM-dd hh:mm:ss'), packageInfo.name, packageInfo.author, __dirname);
 
 gulp.task('default', gulp.series(dev.inject, dev.watch, dev.startDevSer));
-//gulp.task("build",gulp.series(build.del,build.sprites,build.inject));
-gulp.task("build",gulp.series(build.del,build.sprites,build.ngTemplate,build.useMini,build.startBuildSer));
+gulp.task("build",gulp.series(build.del,build.sprites,build.ngTemplate,build.miniImg,build.useMini,build.startBuildSer));

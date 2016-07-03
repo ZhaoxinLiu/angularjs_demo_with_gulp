@@ -1,6 +1,4 @@
 'use strict';
-let processor = require('process'),
-workspacepath = processor.cwd();
 
 module.exports = () => {
     const config = {
@@ -9,24 +7,23 @@ module.exports = () => {
             path: '/api'
         },
         app: {
-            dir: 'app/',//  app 目录
-            mainFile: ['app/css/main.css', 'app/js/app/app.js'], //首先注入的文件
-            js: ['app/js/lib/**/*.js', 'app/js/app/**/*.js'], // 你的js文件
-            css: ['app/css/**/*.css'], //你的CSS文件
-            cssPath: 'app/css', //css文件路径
-            fonts: ['app/fonts/**/*.*'], //字体们
-            images: ['app/images/**/*.*'], //图片们
-            templates: ['app/template/**/*.html', 'app/views/**/*.html'], //模板跟views
+            dir: 'src/',//  app 目录
+            mainFile: ['src/css/main.css', 'src/js/app/app.js'], //首先注入的文件
+            js: ['src/js/lib/**/*.js', 'src/js/app/**/*.js','src/html/route.js'], // 你的js文件
+            css: ['src/css/**/*.css'], //你的CSS文件
+            cssPath: 'src/css', //css文件路径
+            fonts: ['src/fonts/**/*.*'], //字体们
+            images: ['src/images/**/*.*'], //图片们
+            templates: ['src/html/**/*.html'], //模板跟views
             entrance: 'index.html'//app 入口文件
 
         },
         build: {
             dir: 'dist',
-            spriteIMG:'app/images/icons/',
+            spriteIMG:'src/images/icons/',
             appModuleName:'app',
-            ngTemplateBaseDir:workspacepath+'/app/',
-            iconCSS: ['app/css/icon/**/*.css'], //包含sprite图的CSS们
-            spriteCSS: 'app/css/sprite/sprite.css', //sprite
+            iconCSS: ['src/css/icon/**/*.css'], //包含sprite图的CSS们
+            spriteCSS: 'src/css/sprite/sprite.css', //sprite
             outPath:'dist'
         },
         devSer: { //测试服务器设置

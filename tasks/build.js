@@ -6,16 +6,14 @@ const gulp = require('gulp'),
     browserSync = require('browser-sync'),
     proxy = require('proxy-middleware'),
     del = require('del'),
-    processor = require('process'),
     iconv = require('iconv-lite'),
-    series = require('stream-series'),
-    workspacepath = processor.cwd();
+    series = require('stream-series');
 const impl = {
     del(done) {
         del(['dist', '.tmp'], done());
     },
     fixBUG(done) {
-        const imageSetSpriteCreatorJSPath = workspacepath + '/node_modules/css-spritesmith/lib/imageSetSpriteCreator.js';
+        const imageSetSpriteCreatorJSPath = __dirname + '/node_modules/css-spritesmith/lib/imageSetSpriteCreator.js';
         var fs = require('fs');
         fs.exists(imageSetSpriteCreatorJSPath, (exists) => {
             if (exists) {
@@ -37,26 +35,25 @@ const impl = {
         });
     },
     ngTemplate() {
-        var destSrc = '.tmp/templatecache/';
+        var destSrc = 'tmp/templatecache/';
         return gulp.src(config.app.templates)
             .pipe($.minifyHtml())
             .pipe($.angularTemplatecache({
-                module: config.build.appModuleName,
-                base: config.build.ngTemplateBaseDir
+                module: config.build.appModuleName
             }))
             .pipe(gulp.dest(destSrc));
     },
-    useMini(done) {
+    useMini() {
         let fliter = $.filter(['**/*.*', '!**/icon/*.css', '!**/app.js', '!**/main.css']),
             FileStream = gulp.src([].concat(config.build.spriteCSS, config.app.js, config.app.css, ['tmp/templatecache/templates.js']), {
                 read: false
             }).pipe(fliter),
             MainFileStream = gulp.src(config.app.mainFile);
-        return gulp.src('app/index.html')
+        return gulp.src('src/index.html')
             .pipe($.inject(series(MainFileStream, FileStream), {
                 relative: true
             })).pipe($.usemin({
-                assetsDir: 'app',
+                assetsDir: 'src',
                 css1: [$.autoprefixer({
                     browsers: ['last 2 versions'],
                     cascade: false
@@ -70,40 +67,31 @@ const impl = {
             }))
             .pipe(gulp.dest(config.build.outPath))
             .pipe($.rev.manifest())
-            .pipe(gulp.dest('.tmp/manifest'));
+            .pipe(gulp.dest('tmp/manifest'));
     },
-    // revReplace() {
-    //     let manifest = gulp.src(config.tmpForder + "/manifest/rev-manifest.json");
-    //     return gulp.src(config.buildOutPath + config.revReplaceEntrance)
-    //         .pipe($.revReplace({
-    //             manifest: manifest
-    //         }))
-    //         .pipe(gulp.dest(config.buildOutPath))
-    // },
-    // inject() {
-    //     let fliter = $.filter(['**/*.*', '!**/icon/*.css', '!**/app.js', '!**/main.css']),
-    //         FileStream = gulp.src([].concat(config.build.spriteCSS, config.app.js, config.app.css, ['tmp/templatecache/templates.js']), {
-    //             read: false
-    //         }).pipe(fliter),
-    //         MainFileStream = gulp.src(config.app.mainFile);
-    //     return gulp.src(config.app.dir + '/index.html')
-    //         .pipe($.inject(series(MainFileStream, FileStream), {
-    //             relative: true
-    //         }))
-    //         .pipe(gulp.dest(config.app.dir));
-    // },
+    inject() {
+        let fliter = $.filter(['**/*.*', '!**/icon/*.css', '!**/app.js', '!**/main.css']),
+            FileStream = gulp.src([].concat(config.build.spriteCSS, config.app.js, config.app.css, ['tmp/templatecache/templates.js']), {
+                read: false
+            }).pipe(fliter),
+            MainFileStream = gulp.src(config.app.mainFile);
+        return gulp.src(config.app.dir + '/index.html')
+            .pipe($.inject(series(MainFileStream, FileStream), {
+                relative: true
+            }))
+            .pipe(gulp.dest(config.app.dir));
+    },
     miniImg() {
-        //  console.log(config.images)
-        return gulp.src(config.app.images)
+        return gulp.src([config.build.spriteIMG+'sprite.png',config.build.spriteIMG+'sprite@2x.png'])
             .pipe($.imagemin())
-            .pipe(gulp.dest('./dist/'));
+            .pipe(gulp.dest('./dist/images'));
     },
     sprites() {
         let fliter = $.filter(['**/*.*', '!**/sprite.css']);
         return gulp.src(config.build.iconCSS)
             .pipe(fliter)
             .pipe($.concat('sprite.css'))
-            .pipe(gulp.dest('app/css/icon/'))
+            .pipe(gulp.dest('src/css/icon/'))
             .pipe($.cssSpritesmith({
                 imagepath: config.build.spriteIMG,
                 spritedest: config.build.spriteIMG,

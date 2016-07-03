@@ -10,12 +10,15 @@
 
     <!-- build:css2 ./css/app.css -->
     <!-- inject:css -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sprite/sprite.css">
+    <link rel="stylesheet" href="css/app/home/home.css">
     <!-- endinject -->
     <!-- endbuild -->
 
 </head>
 <body ng-app="app">
-    <ng-include src="'./template/header.html'"></ng-include>
+    <ng-include src="'template/header.html'"></ng-include>
     <div class="main-app" ui-view></div>
 
     <!-- build:js1 ./js/vendor.js -->
@@ -28,6 +31,10 @@
 
     <!-- build:js2 ./js/app.js -->
     <!-- inject:js -->
+    <script src="js/app/app.js"></script>
+    <script src="js/app/home/homeCtrl.js"></script>
+    <script src="html/route.js"></script>
+    <script src="../tmp/templatecache/templates.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
 </body>

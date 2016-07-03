@@ -6,8 +6,6 @@ const gulp = require('gulp'),
     browserReload = browserSync.reload,
     proxy = require('proxy-middleware'),
     config = require('../gulp_config')(),
-    processor = require('process'),
-    workspacepath = processor.cwd(),
     colors = require('colors'),
     fs = require("fs");
 const onlyReload = {
@@ -29,6 +27,7 @@ const impl = {
     inject() { // js css  文件注入  并排除sprite.css文件
         let fliter = $.filter(['**/*.*', '!**/sprite.css']);
         return gulp.src(config.app.dir + '/index.html')
+            .pipe($.plumber())
             .pipe($.inject(gulp.src([].concat(config.app.js, config.app.css), {
                 read: false
             }).pipe(fliter), {
@@ -60,7 +59,7 @@ const impl = {
         watcher.on('add', (file) => { //添加文件
             let mat = file.match(/(\w+)\.(\w+)$/);
             if (mat) {
-                console.log((file.replace(workspacepath, 'The File:') + ' [is added]').magenta);
+                console.log((file.replace(__dirname, 'The File:') + ' [is added]').magenta);
                 if (onlyReload[mat[2].toLocaleLowerCase()]) {
                     gulp.series(impl.reload)();
                 } else {
@@ -73,7 +72,7 @@ const impl = {
         });
         watcher.on('unlink', (file) => {
             let mat = file.match(/(\w+)\.(\w+)$/);
-            console.log((file.replace(workspacepath, 'The File:') + ' [is deleted]').magenta);
+            console.log((file.replace(__dirname, 'The File:') + ' [is deleted]').magenta);
             if (onlyReload[mat[2].toLocaleLowerCase()]) {
                 gulp.series(impl.reload)();
             } else {
@@ -87,15 +86,9 @@ const impl = {
                 if (mat[2].toLocaleLowerCase() === 'css') { //判断是不是css文件
                     stream = true;
                 }
-                console.log((file.replace(workspacepath, 'The File:') + ' [is changed]').magenta);
+                console.log((file.replace(__dirname, 'The File:') + ' [is changed]').magenta);
                 if (stream) {
                     gulp.src(file)
-                        .pipe($.autoprefixer({
-                            browsers: ['last 2 versions', '>2%'],
-                            cascade: true,
-                            remove: true
-                        }))
-                        .pipe(gulp.dest(file.replace(/(\w+)\.(\w+)$/,'')))
                         .pipe(browserReload({
                             stream: true
                         })); //css注入
