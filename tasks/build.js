@@ -6,33 +6,11 @@ const gulp = require('gulp'),
     browserSync = require('browser-sync'),
     proxy = require('proxy-middleware'),
     del = require('del'),
-    iconv = require('iconv-lite'),
+  //  iconv = require('iconv-lite'),
     series = require('stream-series');
 const impl = {
     del(done) {
         del(['dist', 'tmp'], done());
-    },
-    fixBUG(done) {
-        const imageSetSpriteCreatorJSPath = __dirname + '/node_modules/css-spritesmith/lib/imageSetSpriteCreator.js';
-        var fs = require('fs');
-        fs.exists(imageSetSpriteCreatorJSPath, (exists) => {
-            if (exists) {
-                fs.readFile(imageSetSpriteCreatorJSPath, (err, data) => {
-                    if (err) {
-                        throw err;
-                    }
-                    let newFileContent = iconv.decode(data, 'utf8').replace('list.push(PLACE_IMAGE_BEFORE)', 'list.unshift(PLACE_IMAGE_BEFORE)');
-                    fs.writeFile(imageSetSpriteCreatorJSPath, new Buffer(newFileContent), function(err) {
-                        if (err) {
-                            throw err;
-                        }
-                        done();
-                    });
-                });
-            } else {
-                done();
-            }
-        });
     },
     ngTemplate() {
         var destSrc = 'tmp/templatecache/';
