@@ -6,7 +6,7 @@ const gulp = require('gulp'),
     browserSync = require('browser-sync'),
     proxy = require('proxy-middleware'),
     del = require('del'),
-  //  iconv = require('iconv-lite'),
+    //  iconv = require('iconv-lite'),
     series = require('stream-series');
 const impl = {
     del(done) {
@@ -42,7 +42,11 @@ const impl = {
                     cascade: false
                 }), $.minifyCss(), $.rev()],
                 js1: [$.jslint(), $.ngAnnotate(), $.uglify(), $.rev()],
-                js2: [$.jslint(), $.ngAnnotate(), $.uglify(), $.rev()]
+                js2: [$.jslint(), $.sourcemaps.init(), $.ngAnnotate(), $.uglify({
+                    compress: {
+                        'drop_console': true
+                    }
+                }), $.rev(), $.sourcemaps.write('./')]
             }))
             .pipe(gulp.dest(config.build.outPath))
             .pipe($.rev.manifest())
@@ -81,7 +85,7 @@ const impl = {
             index: config.app.entrance,
             logLevel: "silent",
             server: {
-                baseDir: config.build.dir + '/',
+                baseDir: config.build.outPath + '/',
                 middleware: [proxy(proxyOptions)]
             }
         });

@@ -15,15 +15,6 @@ const onlyReload = {
     gif: 1
 };
 const impl = {
-    // addPrefix() {
-    //     return gulp.src(config.app.css)
-    //         .pipe($.autoprefixer({
-    //             browsers: ['last 2 versions', '>2%'],
-    //             cascade: true,
-    //             remove: true
-    //         }))
-    //         .pipe(gulp.dest(config.app.cssPath));
-    // },
     inject() { // js css  文件注入  并排除sprite.css文件
         let fliter = $.filter(['**/*.*', '!**/sprite.css']);
         return gulp.src(config.app.dir + '/index.html')
@@ -55,7 +46,7 @@ const impl = {
         done();
     },
     watch(done) { //监控文件变化
-        let watcher = $.watch([].concat(config.app.js, config.app.css, config.app.htmls, config.app.dir + config.app.entrance, config.app.images));
+        let watcher = $.watch([].concat(config.app.js, config.app.css, config.app.htmls, /*config.app.dir + config.app.entrance,*/ config.app.images));
         watcher.on('add', (file) => { //添加文件
             let mat = file.match(/(\w+)\.(\w+)$/);
             if (mat) {

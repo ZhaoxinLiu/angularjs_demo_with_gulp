@@ -19,7 +19,6 @@ module.exports = () => {
 
         },
         build: {
-            dir: 'dist',
             spriteIMG:'src/images/icons/',
             ngTemplateBase:__dirname+'/src',
             appModuleName:'app',
