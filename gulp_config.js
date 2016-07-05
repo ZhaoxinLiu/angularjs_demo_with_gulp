@@ -23,7 +23,7 @@ module.exports = () => {
             spriteIMG:'src/images/icons/',
             appModuleName:'app',
             iconCSS: ['src/css/icon/**/*.css'], //包含sprite图的CSS们
-            spriteCSS: 'src/css/sprite/sprite.css', //sprite
+            spriteCSS: 'src/css/icon/', //sprite
             outPath:'dist'
         },
         devSer: { //测试服务器设置

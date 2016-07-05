@@ -1,7 +1,7 @@
 'use strict';
 const gulp = require('gulp'),
     dev = require('./tasks/dev'),
-    build=require('./tasks/build'),
+    build = require('./tasks/build'),
     colors = require('colors'),
     packageInfo = require('./package.json');
 const dateformat = (d, fmt) => {
@@ -33,6 +33,5 @@ console.log(`
 工作目录:%s
 ==============================
 `.blue, dateformat(new Date(), 'yyyy-MM-dd hh:mm:ss'), packageInfo.name, packageInfo.author, __dirname);
-
 gulp.task('default', gulp.series(dev.inject, dev.watch, dev.startDevSer));
-gulp.task("build",gulp.series(build.del,build.sprites,build.ngTemplate,build.miniImg,build.useMini,build.startBuildSer));
+gulp.task("build", gulp.series(build.del, gulp.parallel(build.sprites, build.ngTemplate), gulp.parallel(build.useMini, build.miniImg), build.startBuildSer));

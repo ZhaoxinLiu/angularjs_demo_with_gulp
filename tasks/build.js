@@ -10,7 +10,7 @@ const gulp = require('gulp'),
     series = require('stream-series');
 const impl = {
     del(done) {
-        del(['dist', '.tmp'], done());
+        del(['dist', 'tmp'], done());
     },
     fixBUG(done) {
         const imageSetSpriteCreatorJSPath = __dirname + '/node_modules/css-spritesmith/lib/imageSetSpriteCreator.js';
@@ -48,7 +48,7 @@ const impl = {
             FileStream = gulp.src([].concat(config.build.spriteCSS, config.app.js, config.app.css, ['tmp/templatecache/templates.js']), {
                 read: false
             }).pipe(fliter),
-            MainFileStream = gulp.src(config.app.mainFile);
+            MainFileStream = gulp.src([].concat(config.app.mainFile,[config.build.spriteCSS+'sprite.css']));
         return gulp.src('src/index.html')
             .pipe($.inject(series(MainFileStream, FileStream), {
                 relative: true
@@ -69,20 +69,8 @@ const impl = {
             .pipe($.rev.manifest())
             .pipe(gulp.dest('tmp/manifest'));
     },
-    inject() {
-        let fliter = $.filter(['**/*.*', '!**/icon/*.css', '!**/app.js', '!**/main.css']),
-            FileStream = gulp.src([].concat(config.build.spriteCSS, config.app.js, config.app.css, ['tmp/templatecache/templates.js']), {
-                read: false
-            }).pipe(fliter),
-            MainFileStream = gulp.src(config.app.mainFile);
-        return gulp.src(config.app.dir + '/index.html')
-            .pipe($.inject(series(MainFileStream, FileStream), {
-                relative: true
-            }))
-            .pipe(gulp.dest(config.app.dir));
-    },
     miniImg() {
-        return gulp.src([config.build.spriteIMG+'sprite.png',config.build.spriteIMG+'sprite@2x.png'])
+        return gulp.src(['./tmp/sprite/*.png'])
             .pipe($.imagemin())
             .pipe(gulp.dest('./dist/images'));
     },
@@ -91,10 +79,10 @@ const impl = {
         return gulp.src(config.build.iconCSS)
             .pipe(fliter)
             .pipe($.concat('sprite.css'))
-            .pipe(gulp.dest('src/css/icon/'))
+            .pipe(gulp.dest(config.build.spriteCSS))
             .pipe($.cssSpritesmith({
                 imagepath: config.build.spriteIMG,
-                spritedest: config.build.spriteIMG,
+                spritedest: './tmp/sprite',
                 spritepath: '../../images/',
                 useimageset: true,
                 newsprite: false,
