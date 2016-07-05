@@ -6,6 +6,7 @@ module.exports = () => {
             url: '127.0.0.1:8080/api',
             path: '/api'
         },
+        workspace:__dirname,
         app: {
             dir: 'src/',//  app 目录
             mainFile: ['src/css/main.css', 'src/js/app/app.js'], //首先注入的文件 (app.js 为angualrjs 的入口文件)
@@ -16,7 +17,6 @@ module.exports = () => {
             images: ['src/images/**/*.*'], //图片们
             htmls: ['src/views/**/*.html','src/template/**/*.html'], //模板跟views
             entrance: 'index.html'//app 入口文件
-
         },
         build: {
             spriteIMG:'src/images/icons/',

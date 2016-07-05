@@ -33,10 +33,6 @@ console.log(`
 工作目录:%s
 ==============================
 `.blue, dateformat(new Date(), 'yyyy-MM-dd hh:mm:ss'), packageInfo.name, packageInfo.author, __dirname);
+gulp.task('shit',gulp.series(build.fixBUG));
 gulp.task('default', gulp.series(dev.inject, dev.watch, dev.startDevSer));
-gulp.task("build", gulp.series(build.del, gulp.parallel(build.sprites, build.ngTemplate), gulp.parallel(build.useMini, build.miniImg), build.startBuildSer));
-
-
-
-
-gulp.task('test',gulp.series(build.del,build.ngTemplate));
+gulp.task("build", gulp.series(build.fixBUG,build.del, gulp.parallel(build.sprites, build.ngTemplate), gulp.parallel(build.useMini, build.miniImg), build.startBuildSer));
