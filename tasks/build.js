@@ -36,10 +36,11 @@ const impl = {
     },
     ngTemplate() {
         var destSrc = 'tmp/templatecache/';
-        return gulp.src(config.app.templates)
+        return gulp.src(config.app.htmls)
             .pipe($.minifyHtml())
             .pipe($.angularTemplatecache({
-                module: config.build.appModuleName
+                module: config.build.appModuleName,
+                base: config.build.ngTemplateBase
             }))
             .pipe(gulp.dest(destSrc));
     },
@@ -48,7 +49,7 @@ const impl = {
             FileStream = gulp.src([].concat(config.build.spriteCSS, config.app.js, config.app.css, ['tmp/templatecache/templates.js']), {
                 read: false
             }).pipe(fliter),
-            MainFileStream = gulp.src([].concat(config.app.mainFile,[config.build.spriteCSS+'sprite.css']));
+            MainFileStream = gulp.src([].concat(config.app.mainFile, [config.build.spriteCSS + 'sprite.css']));
         return gulp.src('src/index.html')
             .pipe($.inject(series(MainFileStream, FileStream), {
                 relative: true
@@ -70,7 +71,9 @@ const impl = {
             .pipe(gulp.dest('tmp/manifest'));
     },
     miniImg() {
-        return gulp.src(['./tmp/sprite/*.png'])
+        let fliter = $.filter(['**/*.*', '!**/icons/**/*.*']);
+        return gulp.src([].concat(config.app.images, ['./tmp/sprite/*.png']))
+            .pipe(fliter)
             .pipe($.imagemin())
             .pipe(gulp.dest('./dist/images'));
     },

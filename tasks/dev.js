@@ -55,7 +55,7 @@ const impl = {
         done();
     },
     watch(done) { //监控文件变化
-        let watcher = $.watch([].concat(config.app.js, config.app.css, config.app.templates, config.app.dir + config.app.entrance, config.app.images));
+        let watcher = $.watch([].concat(config.app.js, config.app.css, config.app.htmls, config.app.dir + config.app.entrance, config.app.images));
         watcher.on('add', (file) => { //添加文件
             let mat = file.match(/(\w+)\.(\w+)$/);
             if (mat) {
