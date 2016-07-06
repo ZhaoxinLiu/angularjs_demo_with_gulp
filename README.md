@@ -2,7 +2,7 @@ angularjs_demo_with_gulp
 ==== 
 
 
-# 安装gulp
+# 安装
 Run $npm install<br>
 
 

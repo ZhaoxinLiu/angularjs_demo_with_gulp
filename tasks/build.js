@@ -109,7 +109,7 @@ const impl = {
             host: config.devSer.hostName,
             open: 'external',
             index: config.app.entrance,
-            logLevel: "silent",
+            //logLevel: "silent",
             server: {
                 baseDir: config.build.outPath + '/',
                 middleware: [proxy(proxyOptions)]
